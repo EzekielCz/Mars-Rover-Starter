@@ -8,23 +8,35 @@ const Command = require('../command.js');
 
 describe("Rover class", function() {
 
+  let commands = [new Command('MODE_CHANGE', 'LOW_POWER'), new Command('STATUS_CHECK')];
+  let message = new Message('Test message with two commands', commands);
+  let rover = new Rover(98382);    // Passes 98382 as the rover's position.
+  let response = rover.receiveMessage(message);
+
   it("constructor sets position and default values for mode and generatorWatts", function() {
-    expect().toBe();
+    let object = new Rover(94);
+    expect(object.position).toBe(94);
+    expect(object.mode).toBe("NORMAL");
+    expect(object.generatorWatts).toBe(110);
   });
 
   it("response returned by receiveMessage contains the name of the message", function() {
-    expect().toBe();
+    expect(response[0].name).toBe("Test message with two commands");
+    // expect(Response.name).toBe();
   });
 
   it("response returned by receiveMessage includes two results if two commands are sent in the message", function() {
-    expect().toBe();
+    expect(response.length).toBe(2);
   });
 
   it("responds correctly to the status check command", function() {
-    expect().toBe();
+    expect(response[0].results[1].commandType).toBe("STATUS_CHECK");
+    expect(response[1].generatorWatts).toBe(110);
+    expect(response[1].mode).toBe("NORMAL");
+    expect(response[1].position).toBe(98382);
   });
 
-  it("responds correctly to the mode change command", function() {
+  /*it("responds correctly to the mode change command", function() {
     expect().toBe();
   });
 
@@ -34,7 +46,7 @@ describe("Rover class", function() {
 
   it("responds with the position for the move command", function() {
     expect().toBe();
-  });
+  });*/
 
   // 7 tests here!
 
